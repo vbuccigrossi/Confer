@@ -2,7 +2,7 @@
 
 **A self-hosted, single-server Slack-style collaboration platform**
 
-Latch is a full-featured team chat application built with Laravel 12, Vue 3, and real-time WebSockets. It includes a web interface, native mobile apps (iOS/Android), a Python Bot SDK, and supports integrations via webhooks and slash commands.
+Confer is a full-featured team chat application built with Laravel 12, Vue 3, and real-time WebSockets. It includes a web interface, native mobile apps (iOS/Android), a Python Bot SDK, and supports integrations via webhooks and slash commands.
 
 ---
 
@@ -51,8 +51,8 @@ Latch is a full-featured team chat application built with Laravel 12, Vue 3, and
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/yourusername/latch.git
-cd latch
+git clone https://github.com/vbuccigrossi/Confer.git
+cd Confer
 
 # 2. Bootstrap the application (creates Laravel app, installs dependencies, runs migrations)
 make bootstrap
@@ -79,7 +79,7 @@ open http://localhost:8080
 ## Project Structure
 
 ```
-latch/
+confer/
 ├── app/                    # Laravel application
 │   ├── app/
 │   │   ├── Console/        # Artisan commands (bots, scheduled tasks)
@@ -104,7 +104,6 @@ latch/
 │   ├── nginx/              # Nginx configuration
 │   └── php/                # PHP-FPM Dockerfile
 ├── scripts/                # Bootstrap and automation scripts
-├── Claude-Docs/            # Design documentation
 ├── docker-compose.yml      # Container orchestration
 └── Makefile                # Developer commands
 ```
@@ -136,16 +135,16 @@ The application runs as a set of Docker containers:
 
 | Container | Purpose |
 |-----------|---------|
-| `latch-app` | PHP-FPM application server |
-| `latch-nginx` | Reverse proxy and static files |
-| `latch-queue` | Background job worker |
-| `latch-scheduler` | Cron-like scheduled tasks |
-| `latch-websockets` | Laravel Reverb WebSocket server |
-| `latch-postgres` | PostgreSQL database |
-| `latch-redis` | Cache, sessions, and queues |
-| `latch-mailhog` | Development email server |
-| `latch-node` | Vite dev server (development only) |
-| `latch-certbot` | SSL certificate management |
+| `confer-app` | PHP-FPM application server |
+| `confer-nginx` | Reverse proxy and static files |
+| `confer-queue` | Background job worker |
+| `confer-scheduler` | Cron-like scheduled tasks |
+| `confer-websockets` | Laravel Reverb WebSocket server |
+| `confer-postgres` | PostgreSQL database |
+| `confer-redis` | Cache, sessions, and queues |
+| `confer-mailhog` | Development email server |
+| `confer-node` | Vite dev server (development only) |
+| `confer-certbot` | SSL certificate management |
 
 ---
 
@@ -194,8 +193,6 @@ DELETE /api/messages/{id}/reactions/{emoji} # Remove reaction
 GET    /api/search?q={query}               # Full-text search
 ```
 
-See [API_DOCUMENTATION.md](API_DOCUMENTATION.md) for complete API reference.
-
 ---
 
 ## Mobile App
@@ -236,7 +233,7 @@ Push notifications use Firebase Cloud Messaging (FCM). Configure your Firebase p
 
 ## Bot Development
 
-Latch supports custom bots via webhooks and slash commands.
+Confer supports custom bots via webhooks and slash commands.
 
 ### Python SDK
 
@@ -248,10 +245,10 @@ pip install -e .
 Example bot:
 
 ```python
-from latch_bot import LatchClient
+from confer_bot import ConferClient
 
-client = LatchClient(
-    base_url="https://your-latch-instance.com",
+client = ConferClient(
+    base_url="https://your-confer-instance.com",
     api_token="your-bot-token"
 )
 
@@ -270,7 +267,7 @@ def weather_command(payload):
 
 ### Built-in Bots
 
-Latch includes several built-in bots:
+Confer includes several built-in bots:
 
 - **Reminder Bot** - Schedule reminders with natural language
 - **AI News Bot** - Daily arXiv paper summaries (configurable categories)
@@ -285,7 +282,7 @@ Copy `.env.example` to `.env` and configure:
 
 ```bash
 # Application
-APP_NAME=Latch
+APP_NAME=Confer
 APP_URL=https://your-domain.com
 
 # Database
@@ -329,8 +326,6 @@ docker compose run --rm certbot certonly --webroot \
   --email your@email.com \
   --agree-tos
 ```
-
-See [DEPLOYMENT_QUICKSTART.md](DEPLOYMENT_QUICKSTART.md) for detailed production setup.
 
 ---
 
