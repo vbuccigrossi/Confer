@@ -1,0 +1,359 @@
+/**
+ * Confer/Latch Mobile App Theme
+ * Matches the web UI design system from STYLE_GUIDE.md
+ * Cyberpunk professional aesthetic with terminal-inspired colors
+ */
+
+:root {
+  /**
+   * Light Mode Colors
+   * Matte neutrals with cyber-green accents
+   */
+  --ion-background-color: #f7f8fa;
+  --ion-background-color-rgb: 247, 248, 250;
+
+  --ion-text-color: #1e293b;
+  --ion-text-color-rgb: 30, 41, 59;
+
+  --ion-color-step-50: #e9ecf0;
+  --ion-color-step-100: #dde1e6;
+  --ion-color-step-150: #d1d6dc;
+  --ion-color-step-200: #c5cbd2;
+  --ion-color-step-250: #b9c0c8;
+  --ion-color-step-300: #adb5be;
+  --ion-color-step-350: #a1aab4;
+  --ion-color-step-400: #959faa;
+  --ion-color-step-450: #8994a0;
+  --ion-color-step-500: #7d8996;
+  --ion-color-step-550: #717e8c;
+  --ion-color-step-600: #657382;
+  --ion-color-step-650: #596878;
+  --ion-color-step-700: #4d5d6e;
+  --ion-color-step-750: #415264;
+  --ion-color-step-800: #35475a;
+  --ion-color-step-850: #293c50;
+  --ion-color-step-900: #1d3146;
+  --ion-color-step-950: #11263c;
+
+  /** Primary - Bright Cyan-Blue */
+  --ion-color-primary: #0284c7;
+  --ion-color-primary-rgb: 2, 132, 199;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #0273af;
+  --ion-color-primary-tint: #1b90cd;
+
+  /** Secondary - Cyber Green Accent */
+  --ion-color-secondary: #00776b;
+  --ion-color-secondary-rgb: 0, 119, 107;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #00695e;
+  --ion-color-secondary-tint: #1a857a;
+
+  /** Success */
+  --ion-color-success: #15803d;
+  --ion-color-success-rgb: 21, 128, 61;
+  --ion-color-success-contrast: #ffffff;
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #127036;
+  --ion-color-success-tint: #2c8d50;
+
+  /** Warning */
+  --ion-color-warning: #a16207;
+  --ion-color-warning-rgb: 161, 98, 7;
+  --ion-color-warning-contrast: #ffffff;
+  --ion-color-warning-contrast-rgb: 255, 255, 255;
+  --ion-color-warning-shade: #8e5606;
+  --ion-color-warning-tint: #aa7120;
+
+  /** Danger */
+  --ion-color-danger: #b91c1c;
+  --ion-color-danger-rgb: 185, 28, 28;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #a31919;
+  --ion-color-danger-tint: #c03333;
+
+  /** Dark/Medium/Light variants */
+  --ion-color-dark: #1e293b;
+  --ion-color-dark-rgb: 30, 41, 59;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1a2334;
+  --ion-color-dark-tint: #353e4f;
+
+  --ion-color-medium: #475569;
+  --ion-color-medium-rgb: 71, 85, 105;
+  --ion-color-medium-contrast: #ffffff;
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #3e4b5c;
+  --ion-color-medium-tint: #596678;
+
+  --ion-color-light: #e9ecf0;
+  --ion-color-light-rgb: 233, 236, 240;
+  --ion-color-light-contrast: #1e293b;
+  --ion-color-light-contrast-rgb: 30, 41, 59;
+  --ion-color-light-shade: #cdd0d3;
+  --ion-color-light-tint: #ebeff2;
+}
+
+/**
+ * Dark Mode Colors
+ * Terminal-inspired with neon phosphor glow
+ * Applies when system prefers dark (and not explicitly set to light)
+ */
+@media (prefers-color-scheme: dark) {
+  :root:not(.ion-palette-light) {
+    --ion-background-color: #0a0f14;
+    --ion-background-color-rgb: 10, 15, 20;
+
+    --ion-text-color: #e2e8f0;
+    --ion-text-color-rgb: 226, 232, 240;
+
+    --ion-color-step-50: #101820;
+    --ion-color-step-100: #1a2129;
+    --ion-color-step-150: #242a33;
+    --ion-color-step-200: #2e333c;
+    --ion-color-step-250: #383c46;
+    --ion-color-step-300: #42454f;
+    --ion-color-step-350: #4c4e59;
+    --ion-color-step-400: #565762;
+    --ion-color-step-450: #60606c;
+    --ion-color-step-500: #6a6975;
+    --ion-color-step-550: #74727f;
+    --ion-color-step-600: #7e7b88;
+    --ion-color-step-650: #888492;
+    --ion-color-step-700: #928d9b;
+    --ion-color-step-750: #9c96a5;
+    --ion-color-step-800: #a69fae;
+    --ion-color-step-850: #b0a8b8;
+    --ion-color-step-900: #bab1c1;
+    --ion-color-step-950: #c4bacb;
+
+    /** Primary - Bright Cyan-Blue */
+    --ion-color-primary: #38bdf8;
+    --ion-color-primary-rgb: 56, 189, 248;
+    --ion-color-primary-contrast: #0a0f14;
+    --ion-color-primary-contrast-rgb: 10, 15, 20;
+    --ion-color-primary-shade: #31a6da;
+    --ion-color-primary-tint: #4cc4f9;
+
+    /** Secondary - Neon Accent (Hacker Glow) */
+    --ion-color-secondary: #00ffc8;
+    --ion-color-secondary-rgb: 0, 255, 200;
+    --ion-color-secondary-contrast: #0a0f14;
+    --ion-color-secondary-contrast-rgb: 10, 15, 20;
+    --ion-color-secondary-shade: #00e0b0;
+    --ion-color-secondary-tint: #1affce;
+
+    /** Success */
+    --ion-color-success: #22c55e;
+    --ion-color-success-rgb: 34, 197, 94;
+    --ion-color-success-contrast: #0a0f14;
+    --ion-color-success-contrast-rgb: 10, 15, 20;
+    --ion-color-success-shade: #1ead53;
+    --ion-color-success-tint: #38cb6e;
+
+    /** Warning */
+    --ion-color-warning: #eab308;
+    --ion-color-warning-rgb: 234, 179, 8;
+    --ion-color-warning-contrast: #0a0f14;
+    --ion-color-warning-contrast-rgb: 10, 15, 20;
+    --ion-color-warning-shade: #ce9d07;
+    --ion-color-warning-tint: #ecbb21;
+
+    /** Danger */
+    --ion-color-danger: #ef4444;
+    --ion-color-danger-rgb: 239, 68, 68;
+    --ion-color-danger-contrast: #ffffff;
+    --ion-color-danger-contrast-rgb: 255, 255, 255;
+    --ion-color-danger-shade: #d23c3c;
+    --ion-color-danger-tint: #f15757;
+
+    /** Dark/Medium/Light variants for dark mode */
+    --ion-color-dark: #e2e8f0;
+    --ion-color-dark-rgb: 226, 232, 240;
+    --ion-color-dark-contrast: #0a0f14;
+    --ion-color-dark-contrast-rgb: 10, 15, 20;
+    --ion-color-dark-shade: #c7ccd3;
+    --ion-color-dark-tint: #e5eaf2;
+
+    --ion-color-medium: #94a3b8;
+    --ion-color-medium-rgb: 148, 163, 184;
+    --ion-color-medium-contrast: #0a0f14;
+    --ion-color-medium-contrast-rgb: 10, 15, 20;
+    --ion-color-medium-shade: #828fa2;
+    --ion-color-medium-tint: #9facbf;
+
+    --ion-color-light: #101820;
+    --ion-color-light-rgb: 16, 24, 32;
+    --ion-color-light-contrast: #e2e8f0;
+    --ion-color-light-contrast-rgb: 226, 232, 240;
+    --ion-color-light-shade: #0e151c;
+    --ion-color-light-tint: #282f36;
+
+    /** Toolbar/Header */
+    --ion-toolbar-background: #101820;
+    --ion-toolbar-border-color: rgba(0, 255, 200, 0.1);
+
+    /** Card/Surface */
+    --ion-card-background: #101820;
+
+    /** Item/List */
+    --ion-item-background: transparent;
+    --ion-item-border-color: rgba(148, 163, 184, 0.1);
+  }
+}
+
+/**
+ * Dark mode when manually toggled via ion-palette-dark class
+ * This duplicates the dark colors for class-based toggling
+ */
+:root.ion-palette-dark {
+  --ion-background-color: #0a0f14;
+  --ion-background-color-rgb: 10, 15, 20;
+
+  --ion-text-color: #e2e8f0;
+  --ion-text-color-rgb: 226, 232, 240;
+
+  --ion-color-step-50: #101820;
+  --ion-color-step-100: #1a2129;
+  --ion-color-step-150: #242a33;
+  --ion-color-step-200: #2e333c;
+  --ion-color-step-250: #383c46;
+  --ion-color-step-300: #42454f;
+  --ion-color-step-350: #4c4e59;
+  --ion-color-step-400: #565762;
+  --ion-color-step-450: #60606c;
+  --ion-color-step-500: #6a6975;
+  --ion-color-step-550: #74727f;
+  --ion-color-step-600: #7e7b88;
+  --ion-color-step-650: #888492;
+  --ion-color-step-700: #928d9b;
+  --ion-color-step-750: #9c96a5;
+  --ion-color-step-800: #a69fae;
+  --ion-color-step-850: #b0a8b8;
+  --ion-color-step-900: #bab1c1;
+  --ion-color-step-950: #c4bacb;
+
+  /** Primary - Bright Cyan-Blue */
+  --ion-color-primary: #38bdf8;
+  --ion-color-primary-rgb: 56, 189, 248;
+  --ion-color-primary-contrast: #0a0f14;
+  --ion-color-primary-contrast-rgb: 10, 15, 20;
+  --ion-color-primary-shade: #31a6da;
+  --ion-color-primary-tint: #4cc4f9;
+
+  /** Secondary - Neon Accent (Hacker Glow) */
+  --ion-color-secondary: #00ffc8;
+  --ion-color-secondary-rgb: 0, 255, 200;
+  --ion-color-secondary-contrast: #0a0f14;
+  --ion-color-secondary-contrast-rgb: 10, 15, 20;
+  --ion-color-secondary-shade: #00e0b0;
+  --ion-color-secondary-tint: #1affce;
+
+  /** Success */
+  --ion-color-success: #22c55e;
+  --ion-color-success-rgb: 34, 197, 94;
+  --ion-color-success-contrast: #0a0f14;
+  --ion-color-success-contrast-rgb: 10, 15, 20;
+  --ion-color-success-shade: #1ead53;
+  --ion-color-success-tint: #38cb6e;
+
+  /** Warning */
+  --ion-color-warning: #eab308;
+  --ion-color-warning-rgb: 234, 179, 8;
+  --ion-color-warning-contrast: #0a0f14;
+  --ion-color-warning-contrast-rgb: 10, 15, 20;
+  --ion-color-warning-shade: #ce9d07;
+  --ion-color-warning-tint: #ecbb21;
+
+  /** Danger */
+  --ion-color-danger: #ef4444;
+  --ion-color-danger-rgb: 239, 68, 68;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #d23c3c;
+  --ion-color-danger-tint: #f15757;
+
+  /** Dark/Medium/Light variants for dark mode */
+  --ion-color-dark: #e2e8f0;
+  --ion-color-dark-rgb: 226, 232, 240;
+  --ion-color-dark-contrast: #0a0f14;
+  --ion-color-dark-contrast-rgb: 10, 15, 20;
+  --ion-color-dark-shade: #c7ccd3;
+  --ion-color-dark-tint: #e5eaf2;
+
+  --ion-color-medium: #94a3b8;
+  --ion-color-medium-rgb: 148, 163, 184;
+  --ion-color-medium-contrast: #0a0f14;
+  --ion-color-medium-contrast-rgb: 10, 15, 20;
+  --ion-color-medium-shade: #828fa2;
+  --ion-color-medium-tint: #9facbf;
+
+  --ion-color-light: #101820;
+  --ion-color-light-rgb: 16, 24, 32;
+  --ion-color-light-contrast: #e2e8f0;
+  --ion-color-light-contrast-rgb: 226, 232, 240;
+  --ion-color-light-shade: #0e151c;
+  --ion-color-light-tint: #282f36;
+
+  /** Toolbar/Header */
+  --ion-toolbar-background: #101820;
+  --ion-toolbar-border-color: rgba(0, 255, 200, 0.1);
+
+  /** Card/Surface */
+  --ion-card-background: #101820;
+
+  /** Item/List */
+  --ion-item-background: transparent;
+  --ion-item-border-color: rgba(148, 163, 184, 0.1);
+}
+
+/**
+ * Additional custom properties for Confer/Latch branding
+ */
+:root {
+  /** Accent glow effect */
+  --accent-glow: rgba(0, 255, 200, 0.25);
+  --accent-glow-light: rgba(0, 119, 107, 0.15);
+
+  /** Transition timings */
+  --transition-fast: 150ms ease-in-out;
+  --transition-normal: 250ms ease-in-out;
+
+  /** Border radius */
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+
+  /** Spacing */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+}
+
+/**
+ * Custom utility classes
+ */
+.accent-border-left {
+  border-left: 2px solid var(--ion-color-secondary);
+}
+
+.neon-glow {
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.message-bubble {
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.hover-accent:hover {
+  background-color: var(--accent-glow);
+  transition: background-color var(--transition-fast);
+}

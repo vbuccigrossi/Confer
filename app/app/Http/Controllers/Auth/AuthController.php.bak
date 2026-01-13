@@ -1,0 +1,157 @@
+<?php
+
+namespace App\Http\Controllers\Auth;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+
+class AuthController extends Controller
+{
+    /**
+     * Register a new user
+     */
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ], 201);
+    }
+
+    /**
+     * Login user and return token
+     */
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+        }
+
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        return response()->json([
+            'user' => $user,
+            'token' => $token,
+        ]);
+    }
+
+    /**
+     * Logout user (revoke current token)
+     */
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'message' => 'Logged out successfully',
+        ]);
+    }
+
+    /**
+     * Logout from all devices (revoke all tokens)
+     */
+    public function logoutAll(Request $request)
+    {
+        $request->user()->tokens()->delete();
+
+        return response()->json([
+            'message' => 'Logged out from all devices successfully',
+        ]);
+    }
+
+    /**
+     * Refresh token (create new token and revoke old one)
+     */
+    public function refresh(Request $request)
+    {
+        $user = $request->user();
+
+        // Revoke current token
+        $request->user()->currentAccessToken()->delete();
+
+        // Create new token
+        $token = $user->createToken('api-token')->plainTextToken;
+
+        return response()->json([
+            'token' => $token,
+        ]);
+    }
+
+    /**
+     * Get current user profile
+     */
+    public function profile(Request $request)
+    {
+        return response()->json([
+            'user' => $request->user()->load('workspaces'),
+        ]);
+    }
+
+    /**
+     * Get all active sessions (tokens)
+     */
+    public function sessions(Request $request)
+    {
+        $tokens = $request->user()->tokens;
+
+        return response()->json([
+            'sessions' => $tokens->map(function ($token) {
+                return [
+                    'id' => $token->id,
+                    'name' => $token->name,
+                    'last_used_at' => $token->last_used_at,
+                    'created_at' => $token->created_at,
+                ];
+            }),
+        ]);
+    }
+
+    /**
+     * Revoke a specific session (token)
+     */
+    public function revokeSession(Request $request, $tokenId)
+    {
+        $request->user()->tokens()->where('id', $tokenId)->delete();
+
+        return response()->json([
+            'message' => 'Session revoked successfully',
+        ]);
+    }
+
+    /**
+     * Update user's last seen timestamp (heartbeat)
+     */
+    public function heartbeat(Request $request)
+    {
+        $user = $request->user();
+        $user->update(['last_seen_at' => now()]);
+
+        return response()->json(['status' => 'ok']);
+    }
+}

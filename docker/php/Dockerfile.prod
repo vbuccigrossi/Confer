@@ -1,0 +1,118 @@
+# Stage 1: Build frontend assets
+FROM node:20-alpine AS assets
+
+WORKDIR /app
+
+COPY app/package*.json ./
+RUN npm ci --prefer-offline --no-audit
+
+COPY app/ ./
+RUN npm run build
+
+# Stage 2: Install Composer dependencies
+FROM composer:2 AS composer
+
+WORKDIR /app
+
+COPY app/composer.json app/composer.lock ./
+RUN composer install \
+    --no-dev \
+    --no-interaction \
+    --no-autoloader \
+    --no-scripts \
+    --prefer-dist \
+    --optimize-autoloader
+
+COPY app/ ./
+RUN composer dump-autoload --optimize --no-dev
+
+# Stage 3: Final production image
+FROM php:8.3-fpm-alpine
+
+LABEL maintainer="Latch Team"
+LABEL description="Latch Production PHP-FPM Image"
+
+# Install system dependencies
+RUN apk add --no-cache \
+    bash \
+    curl \
+    libpng \
+    libjpeg-turbo \
+    freetype \
+    libzip \
+    icu \
+    oniguruma \
+    libpq \
+    netcat-openbsd \
+    shadow \
+    && rm -rf /var/cache/apk/*
+
+# Install build dependencies
+RUN apk add --no-cache --virtual .build-deps \
+    libpng-dev \
+    libjpeg-turbo-dev \
+    freetype-dev \
+    libzip-dev \
+    icu-dev \
+    oniguruma-dev \
+    libpq-dev \
+    autoconf \
+    g++ \
+    make \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
+        gd \
+        pdo \
+        pdo_pgsql \
+        mbstring \
+        zip \
+        bcmath \
+        intl \
+        pcntl \
+        exif \
+        opcache \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps \
+    && rm -rf /tmp/* /var/cache/apk/*
+
+# Copy production PHP configuration
+COPY docker/php/conf.d/php.prod.ini /usr/local/etc/php/conf.d/99-custom.ini
+
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy application files
+COPY --chown=www-data:www-data app/ ./
+
+# Copy Composer dependencies from stage 2
+COPY --from=composer --chown=www-data:www-data /app/vendor ./vendor
+
+# Copy built assets from stage 1
+COPY --from=assets --chown=www-data:www-data /app/public/build ./public/build
+
+# Create necessary directories
+RUN mkdir -p \
+    storage/framework/cache \
+    storage/framework/sessions \
+    storage/framework/views \
+    storage/logs \
+    bootstrap/cache \
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
+# Copy entrypoint script
+COPY docker/php/entrypoint.prod.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+# Switch to non-root user
+USER www-data
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
+    CMD nc -z localhost 9000 || exit 1
+
+EXPOSE 9000
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+CMD ["php-fpm"]

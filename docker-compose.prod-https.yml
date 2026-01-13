@@ -1,0 +1,122 @@
+version: "3.9"
+
+# Production Docker Compose with HTTPS Support
+# Use this for production deployments with Let's Encrypt SSL
+
+services:
+  app:
+    build:
+      context: ./docker/php
+    container_name: latch-app
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./app:/var/www/html
+    environment:
+      PHP_OPCACHE_VALIDATE_TIMESTAMPS: "0"  # Production: disable for performance
+      APP_ENV: production
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - latch-network
+
+  queue:
+    build:
+      context: ./docker/php
+    container_name: latch-queue
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - app
+      - redis
+    command: sh -lc "php artisan queue:work --sleep=1 --tries=3 --backoff=3"
+    networks:
+      - latch-network
+
+  scheduler:
+    build:
+      context: ./docker/php
+    container_name: latch-scheduler
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - app
+    command: sh -lc "php artisan schedule:work"
+    networks:
+      - latch-network
+
+  websockets:
+    build:
+      context: ./docker/php
+    container_name: latch-websockets
+    restart: unless-stopped
+    working_dir: /var/www/html
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - app
+      - redis
+    ports:
+      - "6001:6001"
+    command: sh -lc "php artisan websockets:serve --host=0.0.0.0 --port=6001"
+    networks:
+      - latch-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: latch-nginx
+    restart: unless-stopped
+    volumes:
+      - ./app:/var/www/html:ro
+      - ./app/docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./app/docker/certbot/conf:/etc/letsencrypt:ro
+      - ./app/docker/certbot/www:/var/www/certbot:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - app
+    networks:
+      - latch-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: latch-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-app}
+      POSTGRES_USER: ${DB_USERNAME:-app}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-app}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    networks:
+      - latch-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: latch-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+    volumes:
+      - redisdata:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - latch-network
+
+volumes:
+  pgdata:
+    driver: local
+  redisdata:
+    driver: local
+
+networks:
+  latch-network:
+    driver: bridge

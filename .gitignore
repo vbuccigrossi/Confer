@@ -1,0 +1,70 @@
+# Root ignores
+.env
+*.log
+*.DS_Store
+
+# App directory ignores
+app/vendor/
+app/node_modules/
+app/public/build/
+app/public/hot
+app/storage/
+app/.env
+app/.phpunit.cache/
+app/bootstrap/cache/*.php
+!app/bootstrap/cache/.gitignore
+
+# Mobile app ignores
+mobile-app/.env
+mobile-app/node_modules/
+mobile-app/dist/
+mobile-app/google-services.json
+mobile-app/android/app/google-services.json
+mobile-app/android/app/build/
+mobile-app/android/.gradle/
+mobile-app/ios/App/GoogleService-Info.plist
+mobile-app/*.zip
+
+# Claude Code files (AI assistant configuration)
+.claude/
+Claude-Tmp/
+Claude-Docs/
+CLAUDE.md
+CLAUDE.local.md
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Firebase credentials (never commit these!)
+google-services.json
+GoogleService-Info.plist
+firebase-credentials.json
+firebase-adminsdk*.json
+*-firebase-adminsdk-*.json
+
+# Test files with potential secrets
+**/test-api.php
+**/server-debug.php
+
+# Build artifacts
+*.zip
+*.tar.gz
+
+# TUI client ignores
+tui/venv/
+tui/dist/
+tui/*.egg-info/
+tui/confer-tui-release/
+tui/confer-tui-release.tar.gz
+tui/__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+
+# SDK ignores
+sdk/python/*.egg-info/
+sdk/python/dist/
+sdk/python/build/

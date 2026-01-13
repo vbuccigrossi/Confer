@@ -1,0 +1,15 @@
+# Include documentation and configuration files
+include README.md
+include LICENSE
+include requirements.txt
+include run_tui.sh
+
+# Include all Python files
+recursive-include confer_tui *.py
+
+# Exclude development and build artifacts
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
+global-exclude *.swp
+global-exclude .env

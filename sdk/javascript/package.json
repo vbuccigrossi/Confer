@@ -1,0 +1,68 @@
+{
+  "name": "@latch/bot-sdk",
+  "version": "1.0.0",
+  "description": "Official JavaScript/TypeScript SDK for building Latch bots",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts",
+    "dev": "tsup src/index.ts --format cjs,esm --dts --watch",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write src",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "latch",
+    "bot",
+    "chat",
+    "sdk",
+    "api",
+    "slack-like"
+  ],
+  "author": "Latch Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/latch-bot-sdk-js"
+  },
+  "homepage": "https://docs.latch.example.com/bot-sdk/javascript",
+  "bugs": {
+    "url": "https://github.com/your-org/latch-bot-sdk-js/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "eslint": "^8.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "prettier": "^3.0.0"
+  },
+  "peerDependencies": {
+    "express": "^4.18.0"
+  },
+  "peerDependenciesMeta": {
+    "express": {
+      "optional": true
+    }
+  }
+}

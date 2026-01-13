@@ -1,0 +1,5 @@
+textual==0.47.1
+httpx==0.25.2
+python-dotenv==1.0.0
+rich==13.7.0
+websockets==12.0
