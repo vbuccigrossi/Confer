@@ -1,4 +1,4 @@
-# Latch
+# Confer
 
 **A self-hosted, single-server Slack-style collaboration platform**
 
