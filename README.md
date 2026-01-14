@@ -6,6 +6,9 @@ Confer is a full-featured team chat application built with Laravel 12, Vue 3, an
 
 ---
 
+---<img width="752" height="556" alt="Screen Shot 2026-01-14 at 8 58 37 AM" src="https://github.com/user-attachments/assets/1d58205c-62ed-4327-ac69-bd4aec904a4b" />
+
+
 ## Features
 
 - **Real-time messaging** with WebSocket broadcasting (Laravel Reverb)
